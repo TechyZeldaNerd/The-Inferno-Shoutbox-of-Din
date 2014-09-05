@@ -1002,7 +1002,7 @@ class inferno_shoutbox
 				<br />When a user is not idle within the shoutbox, AJAX will dynamically refresh the shoutbox to fetch new content, the faster this is, the more real time the shoutbox is. However, this speed comes at the cost of your system resources, and depending on your server/forum activity, it may be a very bad idea to set this to a low number.
 				<br />To get the best results, I recommend testing new settings here, pushing time in small amounts (recommended: 1 second) and see what impact that makes on your server load.",
 				"optionscode" 	=> "text",
-				"value" 		=> "5"
+				"value" 		=> "1"
 			),
 			"idle_timeout" => array(
 				"title" 		=> "Shoutbox Idle Timeout",
@@ -1027,7 +1027,7 @@ class inferno_shoutbox
 				"title" 		=> "New Post Shout",
 				"description" 	=> "Select \"Yes\" to automatically have a shout posted when a user posts in a thread.",
 				"optionscode" 	=> "yesno",
-				"value" 		=> "0"
+				"value" 		=> "1"
 			),
 			"thread_forums" => array(
 				"title" 		=> "New Thread Shout Exempt Forums",
