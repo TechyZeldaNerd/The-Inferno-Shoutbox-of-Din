@@ -70,12 +70,13 @@ inferno = function()
 
 	this.open_anus = function()
 	{
-		new Ajax.Request(this.url + '?action=openanus' + inferno.screw_ie(), {
-			method:'get',
-			onSuccess: function(transport) {
-				inferno.anus_time = transport.responseText;
+		jQuery.ajax({
+			type: 'GET',
+			url: this.url + '?action=openanus' + inferno.screw_ie(),
+			success: function(transport) {
+			inferno.anus_time = transport;
 			},
-			onFailure: function() { inferno.alert('Something went wrong opening the anus...'); }
+			error: function() { inferno.alert('Something went wrong opening the anus...'); }
 		});
 	}
 
@@ -179,17 +180,18 @@ inferno = function()
 
 	this.get_shout = function(id)
 	{
-		new Ajax.Request(this.url + '?action=getshout&id=' + id + inferno.screw_ie(), {
-			method:'get',
-			onSuccess: function(transport) {
-				if (transport.responseText != '')
+		jQuery.ajax({
+			type: 'GET',
+			url: this.url + '?action=getshout&id=' + id + inferno.screw_ie(),
+			success: function(transport) {
+				if (transport != '')
 				{
-					inferno.editshout = JSON.parse(transport.responseText);
+					inferno.editshout = JSON.parse(transport);
 					inferno.display_update();
 					inferno.update_idle_time();
 				}
 			},
-			onFailure: function() { inferno.alert('Something went wrong...'); }
+			error: function() { inferno.alert('Something went wrong...'); }
 		});
 	}
 
@@ -212,9 +214,10 @@ inferno = function()
 		if (condition == true)
 		{
 			var options = {
-			    method: 'post',
-			    parameters: {sid: sid, shout: shout},
-			    onSuccess: function() {
+			    type: 'post',
+			    url: this.url + '?action=updateshout',
+			    data: {sid: sid, shout: shout},
+			    success: function() {
 			    	inferno.cancel();
 			    	if (inferno.tab > 0) {
 			    		inferno.load_private_shouts(inferno.tab);
@@ -224,7 +227,7 @@ inferno = function()
 			    	inferno.update_idle_time();
 				}
 			};
-			new Ajax.Request(this.url + '?action=updateshout', options);
+			jQuery.ajax(options);
 		}
 		else
 		{
@@ -236,9 +239,10 @@ inferno = function()
 	{
 		sid = this.editshoutid;
 		var options = {
-		    method: 'post',
-		    parameters: {sid: sid},
-		    onSuccess: function() {
+		    type: 'POST',
+		    url: this.url + '?action=deleteshout',
+		    data: {sid: sid},
+		    success: function() {
 		    	inferno.alert('Shout deleted successfully.');
 		    	inferno.cancel();
 		    	if (inferno.tab > 0) {
@@ -248,7 +252,7 @@ inferno = function()
 		    	}
 		    }
 		};
-		new Ajax.Request(this.url + '?action=deleteshout', options);
+		jQuery.ajax(options);
 	}
 
 	this.cancel = function()
@@ -339,14 +343,15 @@ inferno = function()
 		if (this.style_update)
 		{
 			s = this.styles;
-			s = Object.toJSON(s);
+			s = JSON.stringify(s);
 
 			var options = {
-			    method: 'post',
-			    postBody: 'styles=' + s
+			    type: 'POST',
+			    url: this.url + '?action=updatestyles',
+			    data: 'styles=' + s
 			};
 
-			new Ajax.Request(this.url + '?action=updatestyles', options);
+			jQuery.ajax(options);
 			this.style_update = false;
 			this.alert('Your style properties have been updated.');
 		}
@@ -387,9 +392,10 @@ inferno = function()
 			}
 
 			var options = {
-			    method: 'post',
-			    parameters: params,
-			    onSuccess: function() {
+			    type: 'POST',
+			    url: inferno.url + '?action=newshout',
+			    data: params,
+			    success: function() {
 			    	inferno.submit_styles();
 			    	if (inferno.tab > 0) {
 			    		inferno.load_private_shouts(inferno.tab);
@@ -399,7 +405,7 @@ inferno = function()
 			    	inferno.update_idle_time();
 			    }
 			};
-			new Ajax.Request(inferno.url + '?action=newshout', options);
+			jQuery.ajax(options);
 			inferno.clear_shout();
 			console.log(inferno.url + '?action=newshout');
 		}
@@ -415,17 +421,18 @@ inferno = function()
 
 		if (smileydiv.innerHTML == '')
 		{
-			new Ajax.Request(this.url + '?action=getsmilies', {
-				method:'get',
-				onSuccess: function(transport) {
-					response = transport.responseText;
+			jQuery.ajax({
+				type:'get',
+				url: this.url + '?action=getsmilies',
+				success: function(transport) {
+					response = transport;
 					if (response == '') {
 						inferno.alert('There are no smilies to display.');
 					} else {
 						smileydiv.innerHTML = response;
 					}
 				},
-				onFailure: function() { inferno.alert('Something went wrong...'); }
+				error: function() { inferno.alert('Something went wrong...'); }
 			});
 		}
 		else
@@ -512,11 +519,11 @@ inferno = function()
 			this.tab = uid;
 		}
 
-		new Ajax.Request(this.url + '?action=getshouts&id=' + uid + inferno.screw_ie(), {
-			method:'get',
-			onSuccess: function(transport) {
-				response = transport.responseText;
-
+		jQuery.ajax({
+			type: 'GET',
+			url: this.url + '?action=getshouts&id=' + uid + inferno.screw_ie(),
+			success: function(transport) {
+				response = transport;
 				if (response.indexOf('<<~!PARSE_SHOUT!~>>') != -1) {
 					active_users = response.substring(0, response.indexOf('<<~!PARSE_SHOUT!~>>'));
 					inferno.load_active_user_number(active_users);
@@ -524,7 +531,7 @@ inferno = function()
 				}
 				inferno.update_idle_time();
 			},
-			onFailure: function() { inferno.alert('Something went wrong...'); }
+			error: function() { inferno.alert('Something went wrong...'); }
 		});
 	}
 
@@ -537,10 +544,10 @@ inferno = function()
 			contentdiv.innerHTML = 'Loading...';
 		}
 
-		new Ajax.Request(this.url + '?action=getshouts' + inferno.screw_ie(), {
-			method:'get',
-			onSuccess: function(transport) {
-				response = transport.responseText;
+		jQuery.ajax({ type: "GET",
+				url: this.url + '?action=getshouts' + inferno.screw_ie(),
+				success: function(transport) {
+				response = transport;
 
 				if (response.indexOf('<<~!PARSE_SHOUT!~>>') != -1) {
 					active_users = response.substring(0, response.indexOf('<<~!PARSE_SHOUT!~>>'));
@@ -552,7 +559,7 @@ inferno = function()
 					}
 				}
 			},
-			onFailure: function() { inferno.alert('Something went wrong...'); }
+			error: function() { inferno.alert('Something went wrong...'); }
 		});
 	}
 
@@ -565,13 +572,14 @@ inferno = function()
 			contentdiv = this.shoutbox_content;
 			contentdiv.innerHTML = 'Loading...';
 
-			new Ajax.Request(this.url + '?action=getactiveusers' + inferno.screw_ie(), {
-				method:'get',
-				onSuccess: function(transport) {
-					contentdiv.innerHTML = transport.responseText;
+			jQuery.ajax({
+				type: 'GET',
+				url: this.url + '?action=getactiveusers' + inferno.screw_ie(),
+				success: function(transport) {
+					contentdiv.innerHTML = transport;
 					inferno.update_idle_time();
 				},
-				onFailure: function() { alert('Something went wrong...'); }
+				error: function() { alert('Something went wrong...'); }
 			});
 		}
 	}
