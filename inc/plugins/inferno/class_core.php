@@ -55,7 +55,7 @@ class inferno_shoutbox
 			$this->banned = $this->is_banned();
 			$this->banned_usergroup = $this->is_banned(true);
 			$this->anus = (bool) $this->settings['inferno_shoutbox_anus'];
-			$this->please_support_the_developer($footer);
+//			$this->please_support_the_developer($footer);
 		}
 	}
 
@@ -1138,8 +1138,6 @@ class inferno_shoutbox
 				"inferno_archive_table" => file_get_contents(MYBB_ROOT . "inc/plugins/inferno/templates/archive_table.html"),
 			)
 		);
-		//Install CSS to all themes with pluginlibrary
-		$PL->stylesheet('inferno', file_get_contents(MYBB_ROOT . "/inc/plugins/inferno/inferno_style.css"));
 
 		$install_shouts = array(
 			'Congratulations! Your copy of Inferno Shoutbox ' . $this->version . ' has been installed successfully!',
@@ -1163,29 +1161,45 @@ class inferno_shoutbox
 
 	public function activate()
 	{
+		global $PL;   		
+		$PL or require_once PLUGINLIBRARY;
+		//Install CSS to all themes with pluginlibrary
+		$PL->stylesheet('inferno', file_get_contents(MYBB_ROOT . "/inc/plugins/inferno/inferno_style.css"));
 		require_once MYBB_ROOT . '/inc/adminfunctions_templates.php';
 		find_replace_templatesets('index', '#' . preg_quote('{$forums}') . '#', '{$inferno_shoutbox}{$forums}');
 	}
 
 	public function deactivate()
 	{
+		global $PL;   		
+		$PL or require_once PLUGINLIBRARY;
+		//Clean cache		
+		$PL->cache_delete("inferno");
+		//Deactivate Stylesheets
+		$PL->stylesheet_deactivate('inferno', true);
 		require_once MYBB_ROOT . '/inc/adminfunctions_templates.php';
 		find_replace_templatesets('index', '#' . preg_quote('{$inferno_shoutbox}') . '#', '');
 	}
 
-	public function please_support_the_developer(&$footer)
+//Sorry, but it breaks too many themes. I'll probably put this in a comment in the javascript and HTML source
+/*	public function please_support_the_developer(&$footer)
 	{
 		$string = 'Inferno Shoutbox v' . $this->version . ' by <a href="http://community.mybb.com/thread-149231-post-1053656.html#pid1053656">Mattbox Solutions</a>.<br />';
 		$footer = str_replace('<div id="copyright">', '<div title="Made in loving memory of J.A." id="copyright">' . $string, $footer);
 	}
-
+*/
 	public function uninstall()
 	{
-		// Delete all tables & Info!
-		$this->db->delete_query("settinggroups WHERE name = 'inferno';");
-		$this->db->delete_query("settings WHERE name LIKE '%inferno_%';");
-		$this->db->delete_query("templategroups WHERE prefix = 'inferno';");
-		$this->db->delete_query("templates WHERE title LIKE '%inferno_%';");
+		// Delete all tables & Info!    		
+		global $PL;   		
+		$PL or require_once PLUGINLIBRARY;
+		//Delete settings
+  		$PL->settings_delete("inferno");
+		//Delete templates
+		$PL->templates_delete("inferno");
+		//Delete CSS
+		$PL->stylesheet_delete('inferno', true);		
+		//Drop tables		
 		$this->db->query("DROP TABLE IF EXISTS " . TABLE_PREFIX . "inferno_shout");
 		$this->db->query("DROP TABLE IF EXISTS " . TABLE_PREFIX . "inferno_user");
 
