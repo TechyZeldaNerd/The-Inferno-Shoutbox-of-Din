@@ -45,7 +45,7 @@ class inferno_shoutbox
 		global $mybb, $db, $settings, $footer, $lang;
 
 		$this->mybb 	=& $mybb;
-		$this->db 		=& $db;
+		$this->db 	=& $db;
 		$this->settings =& $settings;
 		$this->lang 	=& $lang;
 
@@ -857,7 +857,7 @@ class inferno_shoutbox
 				<br />Turning this feature on will ensure the shoutbox only requests data when there is new data to be displayed
 				<br />Note: Turning this option on may create a half or one second delay in displaying new shouts.",
 				"optionscode" 	=> "onoff",
-				"value" 		=> "1"
+				"value" 		=> "0"
 			),
 			"shoutbox_pm" => array(
 				"title" 		=> "Enable Private Messaging System",
