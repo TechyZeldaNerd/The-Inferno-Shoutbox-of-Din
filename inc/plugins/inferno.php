@@ -7,7 +7,7 @@ if (!defined('IN_MYBB'))
 	exit;
 }
 
-$plugins->add_hook('global_start', 'inferno_global');
+$plugins->add_hook('global_end', 'inferno_global');
 $plugins->add_hook('admin_user_users_delete_commit', 'inferno_delete_user');
 $plugins->add_hook('inferno_archive_start', 'inferno_archive');
 $plugins->add_hook('newthread_do_newthread_end', 'inferno_newthread');
