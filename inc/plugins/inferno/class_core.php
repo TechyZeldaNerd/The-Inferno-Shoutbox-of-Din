@@ -1023,6 +1023,12 @@ class inferno_shoutbox
 				"optionscode" 	=> "yesno",
 				"value" 		=> "1"
 			),
+			"post_post" => array(
+				"title" 		=> "New Post Shout",
+				"description" 	=> "Select \"Yes\" to automatically have a shout posted when a user posts in a thread.",
+				"optionscode" 	=> "yesno",
+				"value" 		=> "0"
+			),
 			"thread_forums" => array(
 				"title" 		=> "New Thread Shout Exempt Forums",
 				"description" 	=> "Enter the ID for each forum that will NOT have a shout automatically posted when a user posts a new thread. Enter secret forums such as staff sections, 18+, etc.

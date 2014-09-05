@@ -7,6 +7,11 @@ if (!defined('IN_MYBB'))
 	exit;
 }
 
+if(!defined("PLUGINLIBRARY"))
+{
+    define("PLUGINLIBRARY", MYBB_ROOT."inc/plugins/pluginlibrary.php");
+}
+
 $plugins->add_hook('global_intermediate', 'inferno_global');
 $plugins->add_hook('admin_user_users_delete_commit', 'inferno_delete_user');
 $plugins->add_hook('inferno_archive_start', 'inferno_archive');
@@ -118,17 +123,34 @@ function inferno_newthread()
 
 function inferno_newpost()
 {
-	global $mybb, $db, $settings, $post, $lang;
+	global $mybb, $db, $settings, $post, $url, $lang, $thread;
 	$counter = (int) $settings['inferno_newpost'];
 	$posts = (int) $mybb->user['postnum'] + 1;
+
 
 	if ($settings['inferno_enabled'] && $counter)
 	{
 		$inferno = inferno_init();
-
+	
 		if ($posts % $counter == 0)
 		{
 			$inferno->create_shout($mybb->user['uid'], $lang->sprintf($lang->isb_newpost, $posts), true);
+		}
+	}
+	
+
+	if ($settings['inferno_enabled'])
+	{
+		$inferno = inferno_init();
+		$data = $mybb->input;
+		$fid = $thread['fid'];
+		$inferno_url = htmlspecialchars_decode($url);
+
+		if ($settings['inferno_post_post'] && !in_array($fid, explode(',', $settings['inferno_thread_forums'])))
+		{
+			$link = '[url=' . $settings['bburl'] . '/' . $inferno_url . ']' . $db->escape_string($thread['subject']) . '[/url]';
+			$shout = $lang->sprintf($lang->isb_newpost_shout, $link);
+			$inferno->create_shout($mybb->user['uid'], $shout, true);
 		}
 	}
 }
@@ -146,3 +168,4 @@ function dvd($str)
 }
 
 ?>
+

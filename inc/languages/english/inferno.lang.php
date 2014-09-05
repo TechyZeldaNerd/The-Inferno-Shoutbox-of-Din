@@ -27,7 +27,7 @@ $l['isb_archive_btn_go']	= 'Go';
 // Auto-Messages
 $l['isb_newthread']			= 'has posted a new thread: {1}';
 $l['isb_newpost']			= 'has reached {1} posts';
-
+$l['isb_newpost_shout']			= 'has reached posted in {1}';
 
 ############ SHOUTBOX COMMANDS ############ 
 
