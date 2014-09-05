@@ -10,3 +10,5 @@ http://community.mybb.com/thread-149231.html
 --
 
 Okay, so I am playing around with this and changing some code. Plugin Library will probably be required within a few changes. I might also change the way some stuff works, I'm not sure yet.
+
+This plugin requires the latest developer version of Plugin Library, otherwise the CSS may not insert correctly
