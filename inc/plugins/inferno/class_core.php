@@ -6,6 +6,17 @@
  *
  * @author Mattbox Solutions
  */
+//Uhh, isn't not having this a security risk? Maybe this is what the post was referencing.
+if(!defined("IN_MYBB"))
+{
+    die("Direct initialization of this file is not allowed.<br /><br />Please make sure IN_MYBB is defined.");
+}
+//Include plugin library
+if(!defined("PLUGINLIBRARY"))
+{
+    define("PLUGINLIBRARY", MYBB_ROOT."inc/plugins/pluginlibrary.php");
+}
+
 class inferno_shoutbox
 {
 	public static $_instance = null;
@@ -813,335 +824,276 @@ class inferno_shoutbox
 	 */
 	public function install()
 	{
+		    if(!file_exists(PLUGINLIBRARY))
+		    {
+		        flash_message("The selected plugin could not be installed because <a href=\"http://mods.mybb.com/view/pluginlibrary\">PluginLibrary</a> is missing.", "error");
+		        admin_redirect("index.php?module=config-plugins");
+		    }
+
+		global $PL;
+		$PL or require_once PLUGINLIBRARY;
 		// Create Setting Group
-		$this->db->insert_query('settinggroups', array(
-			'gid' 			=> '0',
-			'name' 			=> 'inferno',
-			'title' 		=> 'Inferno Shoutbox Options',
-			'description' 	=> 'This section allows you to manage the various settings of your Inferno Shoutbox.',
-			'disporder' 	=> '6',
-			'isdefault' 	=> '1'
-		));
-
-		// Populate Settings
-		$settings = array(
-			array(
-				'name' 			=> 'enabled',
-				'title' 		=> 'Shoutbox Online',
-				'description' 	=> 'Is the shoutbox system online?',
-				'optionscode' 	=> 'onoff',
-				'value' 		=> '1'
+		$PL->settings("inferno", // group name and settings prefix 
+                  "Inferno Shoutbox Options",
+                  "This section allows you to manage the various settings of your Inferno Shoutbox.",
+                	array(
+			"enabled" => array(
+				"title" 		=> "Shoutbox Online",
+				"description" 	=> "Is the shoutbox system online?",
+				"optionscode" 	=> "onoff",
+				"value" 		=> "1"
 			),
-			array(
-				'name' 			=> 'shoutbox_title',
-				'title' 		=> 'Shoutbox Title',
-				'description' 	=> 'The shoutbox title displayed on the category row of the shoutbox on your forums.',
-				'optionscode' 	=> 'text',
-				'value' 		=> trim($this->db->escape_string($this->settings['bbname']) . ' Shoutbox')
+			"shoutbox_title" => array(
+				"title" 		=> "Shoutbox Title",
+				"description" 	=> "The shoutbox title displayed on the category row of the shoutbox on your forums.",
+				"optionscode" 	=> "text",
+				"value" 		=> trim($this->db->escape_string($this->settings["bbname"]) . " Shoutbox")
 			),
-			array(
-				'name' 			=> 'shoutbox_anus',
-				'title' 		=> 'Shoutbox ANUS (Advanced Network Updating System)',
-				'description' 	=> 'ANUS (Advanced Network Updating System) is a feature that greatly reduces the resources consumed by the shoutbox, which is ideal for small servers, or sites that wish to optimize the shoutbox. 
+			"shoutbox_anus" => array(
+				"title" 		=> "Shoutbox ANUS (Advanced Network Updating System)",
+				"description" 	=> "ANUS (Advanced Network Updating System) is a feature that greatly reduces the resources consumed by the shoutbox, which is ideal for small servers, or sites that wish to optimize the shoutbox. 
 				<br />Turning this feature on will ensure the shoutbox only requests data when there is new data to be displayed
-				<br />Note: Turning this option on may create a half or one second delay in displaying new shouts.',
-				'optionscode' 	=> 'onoff',
-				'value' 		=> '1'
+				<br />Note: Turning this option on may create a half or one second delay in displaying new shouts.",
+				"optionscode" 	=> "onoff",
+				"value" 		=> "1"
 			),
-			array(
-				'name' 			=> 'shoutbox_pm',
-				'title' 		=> 'Enable Private Messaging System',
-				'description' 	=> 'Set to "Off" to disable the shoutbox private messaging system.',
-				'optionscode' 	=> 'onoff',
-				'value' 		=> '1'
+			"shoutbox_pm" => array(
+				"title" 		=> "Enable Private Messaging System",
+				"description" 	=> "Set to \"Off\" to disable the shoutbox private messaging system.",
+				"optionscode" 	=> "onoff",
+				"value" 		=> "1"
 			),
-			array(
-				'name' 			=> 'minimum_posts',
-				'title' 		=> 'Minimum Posts to View Shoutbox',
-				'description' 	=> 'Enter the number of posts a user must have before they can participate in the shoutbox.
-				<br />Leave blank to disable',
-				'optionscode' 	=> 'text',
-				'value' 		=> ''
+			"minimum_posts" => array(
+				"title" 		=> "Minimum Posts to View Shoutbox",
+				"description" 	=> "Enter the number of posts a user must have before they can participate in the shoutbox.
+				<br />Leave blank to disable",
+				"optionscode" 	=> "text",
+				"value" 		=> ""
 			),
-			array(
-				'name' 			=> 'alert_admincommands',
-				'title' 		=> 'Disable Admin Command Notices',
-				'description' 	=> 'Switching this setting to Yes will mean that when an admin executes a command in the shoutbox (such as pruning, or banning a user) the notice that usually automatically shows will not be shown.',
-				'optionscode' 	=> 'yesno',
-				'value' 		=> '0'
+			"alert_admincommands" => array(
+				"title" 		=> "Disable Admin Command Notices",
+				"description" 	=> "Switching this setting to Yes will mean that when an admin executes a command in the shoutbox (such as pruning, or banning a user) the notice that usually automatically shows will not be shown.",
+				"optionscode" 	=> "yesno",
+				"value" 		=> "0"
 			),
-			array(
-				'name' 			=> 'shouts_display',
-				'title' 		=> 'Shouts To Display',
-				'description' 	=> 'Select the number of shouts you wish to display within the shoutbox.
-				<br />Note: the higher this number, the more intensive the shoutbox may be on your server.',
-				'optionscode' 	=> 'text',
-				'value' 		=> '20'
+			"shouts_display" => array(
+				"title" 		=> "Shouts To Display",
+				"description" 	=> "Select the number of shouts you wish to display within the shoutbox.
+				<br />Note: the higher this number, the more intensive the shoutbox may be on your server.",
+				"optionscode" 	=> "text",
+				"value" 		=> "20"
 			),
-			array(
-				'name' 			=> 'shout_order',
-				'title' 		=> 'Shout Display Order',
-				'description' 	=> 'Select \"on\" to display shouts in descending order. Select \"off\" to display shouts in ascending order.',
-				'optionscode' 	=> 'onoff',
-				'value' 		=> '1'
+			"shout_order" => array(
+				"title" 		=> "Shout Display Order",
+				"description" 	=> "Select \"on\" to display shouts in descending order. Select \"off\" to display shouts in ascending order.",
+				"optionscode" 	=> "onoff",
+				"value" 		=> "1"
 			),
-			array(
-				'name' 			=> 'avatars',
-				'title' 		=> 'Display User Avatars',
-				'description' 	=> 'Enter a number in pixels to enable. This number will set the width and height of the avatar in each shout.
+			"avatars" => array(
+				"title" 		=> "Display User Avatars",
+				"description" 	=> "Enter a number in pixels to enable. This number will set the width and height of the avatar in each shout.
 				<br>For example, setting this field to \"50\" will display each avatar and make the width=\"50\" and height=\"50\".
-				<br>To disable this feature, keep this field empty',
-				'optionscode' 	=> 'text',
-				'value' 		=> ''
+				<br>To disable this feature, keep this field empty",
+				"optionscode" 	=> "text",
+				"value" 		=> ""
 			),
-			array(
-				'name' 			=> 'shoutbox_flood',
-				'title' 		=> 'Flood Control',
-				'description' 	=> 'Set how many seconds a user must wait before posting another shout after a previous.
-				<br />For example, if this was set to 3, and a user made a shout, they would only be able to shout again 3 seconds later.',
-				'optionscode' 	=> 'text',
-				'value' 		=> '3'
+			"shoutbox_flood" => array(
+				"title" 		=> "Flood Control",
+				"description" 	=> "Set how many seconds a user must wait before posting another shout after a previous.
+				<br />For example, if this was set to 3, and a user made a shout, they would only be able to shout again 3 seconds later.",
+				"optionscode" 	=> "text",
+				"value" 		=> "3"
 			),
-			array(
-				'name' 			=> 'shoutbox_color',
-				'title' 		=> 'Editor Colors',
-				'description' 	=> 'You may customize the colors automatically shown in the shoutbox editor for people to pick for the messages they shout.
-				<br />Put one color on each line and make sure you only use hexcodes or color names.',
-				'optionscode' 	=> 'textarea',
-				'value' 		=> 'Red\r\nBlue\r\nGreen\r\nOrange\r\nBrown\r\nBlack\r\nYellow\r\nPurple\r\nPink\r\nSilver'
+			"shoutbox_color" => array(
+				"title" 		=> "Editor Colors",
+				"description" 	=> "You may customize the colors automatically shown in the shoutbox editor for people to pick for the messages they shout.
+				<br />Put one color on each line and make sure you only use hexcodes or color names.",
+				"optionscode" 	=> "textarea",
+				"value" 		=> "Red\r\nBlue\r\nGreen\r\nOrange\r\nBrown\r\nBlack\r\nYellow\r\nPurple\r\nPink\r\nSilver"
 			),
-			array(
-				'name' 			=> 'shoutbox_font',
-				'title' 		=> 'Editor Fonts',
-				'description' 	=> 'Similar to "Editor Colors", only this applies for font styles.',
-				'optionscode' 	=> 'textarea',
-				'value' 		=> 'Arial\r\nArial Black\r\nArial Narrow\r\nBook Antiqua\r\nCentury Gothic\r\nComic Sans MS\r\nCourier New\r\nFixedsys\r\nFranklin Gothic Medium\r\nGaramond\r\nGeorgia\r\nImpact\r\nLucida Console\r\nMicrosoft Sans Serif\r\nPalatino Linotype\r\nSystem\r\nTahoma\r\nTimes New Roman\r\nTrebuchet MS\r\nVerdana'
+			"shoutbox_font" => array(
+				"title" 		=> "Editor Fonts",
+				"description" 	=> "Similar to \"Editor Colors\", only this applies for font styles.",
+				"optionscode" 	=> "textarea",
+				"value" 		=> "Arial\r\nArial Black\r\nArial Narrow\r\nBook Antiqua\r\nCentury Gothic\r\nComic Sans MS\r\nCourier New\r\nFixedsys\r\nFranklin Gothic Medium\r\nGaramond\r\nGeorgia\r\nImpact\r\nLucida Console\r\nMicrosoft Sans Serif\r\nPalatino Linotype\r\nSystem\r\nTahoma\r\nTimes New Roman\r\nTrebuchet MS\r\nVerdana"
 			),
-			array(
-				'name' 			=> 'css_height',
-				'title' 		=> 'Default Shoutbox Window Height',
-				'description' 	=> 'Specify a number in pixels for the default height of the window where shouts will be displayed. You do not need to enter "px".',
-				'optionscode' 	=> 'text',
-				'value' 		=> '210'
+			"css_height" => array(
+				"title" 		=> "Default Shoutbox Window Height",
+				"description" 	=> "Specify a number in pixels for the default height of the window where shouts will be displayed. You do not need to enter \"px\".",
+				"optionscode" 	=> "text",
+				"value" 		=> "210"
 			),
-			array(
-				'name' 			=> 'button_bold',
-				'title' 		=> 'Show Bold Button',
-				'description' 	=> 'Specify if the bold button will be displayed within the shoutbox editor.',
-				'optionscode' 	=> 'yesno',
-				'value' 		=> '1'
+			"button_bold" => array(
+				"title" 		=> "Show Bold Button",
+				"description" 	=> "Specify if the bold button will be displayed within the shoutbox editor.",
+				"optionscode" 	=> "yesno",
+				"value" 		=> "1"
 			),
-			array(
-				'name' 			=> 'button_underline',
-				'title' 		=> 'Show Underline Button',
-				'description' 	=> 'Specify if the underline button will be displayed within the shoutbox editor.',
-				'optionscode' 	=> 'yesno',
-				'value' 		=> '1'
+			"button_underline" => array(
+				"title" 		=> "Show Underline Button",
+				"description" 	=> "Specify if the underline button will be displayed within the shoutbox editor.",
+				"optionscode" 	=> "yesno",
+				"value" 		=> "1"
 			),
-			array(
-				'name' 			=> 'button_italic',
-				'title' 		=> 'Show Italic Button',
-				'description' 	=> 'Specify if the italic button will be displayed within the shoutbox editor.',
-				'optionscode' 	=> 'yesno',
-				'value' 		=> '1'
+			"button_italic" => array(
+				"title" 		=> "Show Italic Button",
+				"description" 	=> "Specify if the italic button will be displayed within the shoutbox editor.",
+				"optionscode" 	=> "yesno",
+				"value" 		=> "1"
 			),
-			array(
-				'name' 			=> 'button_colors',
-				'title' 		=> 'Show Colors Drop-Down',
-				'description' 	=> 'Specify if the colors drop-down will be displayed within the shoutbox editor.',
-				'optionscode' 	=> 'yesno',
-				'value' 		=> '1'
+			"button_colors" => array(
+				"title" 		=> "Show Colors Drop-Down",
+				"description" 	=> "Specify if the colors drop-down will be displayed within the shoutbox editor.",
+				"optionscode" 	=> "yesno",
+				"value" 		=> "1"
 			),
-			array(
-				'name' 			=> 'button_fonts',
-				'title' 		=> 'Show Fonts Drop-Down',
-				'description' 	=> 'Specify if the fonts drop-down will be displayed within the shoutbox editor.',
-				'optionscode' 	=> 'yesno',
-				'value' 		=> '1'
+			"button_fonts" => array(
+				"title" 		=> "Show Fonts Drop-Down",
+				"description" 	=> "Specify if the fonts drop-down will be displayed within the shoutbox editor.",
+				"optionscode" 	=> "yesno",
+				"value" 		=> "1"
 			),
-			array(
-				'name' 			=> 'button_smilies',
-				'title' 		=> 'Show Smilies Button',
-				'description' 	=> 'Specify if the smilies button will be displayed within the shoutbox editor.',
-				'optionscode' 	=> 'yesno',
-				'value' 		=> '1'
+			"button_smilies" => array(
+				"title" 		=> "Show Smilies Button",
+				"description" 	=> "Specify if the smilies button will be displayed within the shoutbox editor.",
+				"optionscode" 	=> "yesno",
+				"value" 		=> "1"
 			),
-			array(
-				'name' 			=> 'shoutbox_notice',
-				'title' 		=> 'Shoutbox Notice',
-				'description' 	=> 'This will be displayed above all shouts and remain static. Leave blank for no notice. You can either enter the notice here or use the following commands within the shoutbox:
-				<pre>/notice [your message here]\n/removenotice</pre>',
-				'optionscode' 	=> 'text',
-				'value' 		=> ''
+			"shoutbox_notice" => array(
+				"title" 		=> "Shoutbox Notice",
+				"description" 	=> "This will be displayed above all shouts and remain static. Leave blank for no notice. You can either enter the notice here or use the following commands within the shoutbox:
+				<pre>/notice [your message here]\n/removenotice</pre>",
+				"optionscode" 	=> "text",
+				"value" 		=> ""
 			),
-			array(
-				'name' 			=> 'usergroups_admin',
-				'title' 		=> 'Administrator Usergroups',
-				'description' 	=> 'Note any usergroups here that will have administrator commands.
-				<br />Seperate each group with a comma',
-				'optionscode' 	=> 'text',
-				'value' 		=> '4'
+			"usergroups_admin" => array(
+				"title" 		=> "Administrator Usergroups",
+				"description" 	=> "Note any usergroups here that will have administrator commands.
+				<br />Seperate each group with a comma",
+				"optionscode" 	=> "text",
+				"value" 		=> "4"
 			),
-			array(
-				'name' 			=> 'usergroups_mod',
-				'title' 		=> 'Moderator Usergroups',
-				'description' 	=> 'Note any usergroups here that will have moderator commands.
-				<br />Seperate each group with a comma',
-				'optionscode' 	=> 'text',
-				'value' 		=> '3,6'
+			"usergroups_mod" => array(
+				"title" 		=> "Moderator Usergroups",
+				"description" 	=> "Note any usergroups here that will have moderator commands.
+				<br />Seperate each group with a comma",
+				"optionscode" 	=> "text",
+				"value" 		=> "3,6"
 			),
-			array(
-				'name' 			=> 'usergroups_protected',
-				'title' 		=> 'Protected Usergroups',
-				'description' 	=> 'Note any usergroups here to be protected, they will not be allowed to be banned, silenced, etc.
-				<br />Seperate each group with a comma',
-				'optionscode' 	=> 'text',
-				'value' 		=> '4'
+			"usergroups_protected" => array(
+				"title" 		=> "Protected Usergroups",
+				"description" 	=> "Note any usergroups here to be protected, they will not be allowed to be banned, silenced, etc.
+				<br />Seperate each group with a comma",
+				"optionscode" 	=> "text",
+				"value" 		=> "4"
 			),
-			array(
-				'name' 			=> 'usergroups_banned',
-				'title' 		=> 'Banned Usergroups',
-				'description' 	=> 'Select the usergroups that are banned from the shoutbox. Users in these groups will not be able to see or access the shoutbox.
-				<br />Seperate each group with a comma',
-				'optionscode' 	=> 'text',
-				'value' 		=> '1,5,7'
+			"usergroups_banned" => array(
+				"title" 		=> "Banned Usergroups",
+				"description" 	=> "Select the usergroups that are banned from the shoutbox. Users in these groups will not be able to see or access the shoutbox.
+				<br />Seperate each group with a comma",
+				"optionscode" 	=> "text",
+				"value" 		=> "1,5,7"
 			),
-			array(
-				'name' 			=> 'js_refresh',
-				'title' 		=> 'Shoutbox Refresh Rate',
-				'description' 	=> 'Enter the amount in seconds before the shoutbox updates.
+			"js_refresh" => array(
+				"title" 		=> "Shoutbox Refresh Rate",
+				"description" 	=> "Enter the amount in seconds before the shoutbox updates.
 				<br />When a user is not idle within the shoutbox, AJAX will dynamically refresh the shoutbox to fetch new content, the faster this is, the more real time the shoutbox is. However, this speed comes at the cost of your system resources, and depending on your server/forum activity, it may be a very bad idea to set this to a low number.
-				<br />To get the best results, I recommend testing new settings here, pushing time in small amounts (recommended: 1 second) and see what impact that makes on your server load.',
-				'optionscode' 	=> 'text',
-				'value' 		=> '5'
+				<br />To get the best results, I recommend testing new settings here, pushing time in small amounts (recommended: 1 second) and see what impact that makes on your server load.",
+				"optionscode" 	=> "text",
+				"value" 		=> "5"
 			),
-			array(
-				'name' 			=> 'idle_timeout',
-				'title' 		=> 'Shoutbox Idle Timeout',
-				'description' 	=> 'Enter the amount (in minutes) before a user will becomde idle client side due to inactivity. Default is 10 minutes
-				<br />Note: When a user is idle, it will no longer refresh the shoutbox until they choose to un-idle.',
-				'optionscode' 	=> 'text',
-				'value' 		=> '10'
+			"idle_timeout" => array(
+				"title" 		=> "Shoutbox Idle Timeout",
+				"description" 	=> "Enter the amount (in minutes) before a user will becomde idle client side due to inactivity. Default is 10 minutes
+				<br />Note: When a user is idle, it will no longer refresh the shoutbox until they choose to un-idle.",
+				"optionscode" 	=> "text",
+				"value" 		=> "10"
 			),
-			array(
-				'name' 			=> 'shout_max_chars',
-				'title' 		=> 'Maximum Shout Length',
-				'description' 	=> 'The maximum amount of characters allowed in a single shout.',
-				'optionscode' 	=> 'text',
-				'value' 		=> '300'
+			"shout_max_chars" => array(
+				"title" 		=> "Maximum Shout Length",
+				"description" 	=> "The maximum amount of characters allowed in a single shout.",
+				"optionscode" 	=> "text",
+				"value" 		=> "300"
 			),
-			array(
-				'name' 			=> 'thread_post',
-				'title' 		=> 'New Thread Shout',
-				'description' 	=> 'Select "Yes" to automatically have a shout posted when a user posts a new thread.',
-				'optionscode' 	=> 'yesno',
-				'value' 		=> '1'
+			"thread_post" => array(
+				"title" 		=> "New Thread Shout",
+				"description" 	=> "Select \"Yes\" to automatically have a shout posted when a user posts a new thread.",
+				"optionscode" 	=> "yesno",
+				"value" 		=> "1"
 			),
-			array(
-				'name' 			=> 'thread_forums',
-				'title' 		=> 'New Thread Shout Exempt Forums',
-				'description' 	=> 'Enter the ID for each forum that will NOT have a shout automatically posted when a user posts a new thread. Enter secret forums such as staff sections, 18+, etc.
-				<br />Seperate each forum ID with a comma',
-				'optionscode' 	=> 'text',
-				'value' 		=> ''
+			"thread_forums" => array(
+				"title" 		=> "New Thread Shout Exempt Forums",
+				"description" 	=> "Enter the ID for each forum that will NOT have a shout automatically posted when a user posts a new thread. Enter secret forums such as staff sections, 18+, etc.
+				<br />Seperate each forum ID with a comma",
+				"optionscode" 	=> "text",
+				"value" 		=> ""
 			),
-			array(
-				'name' 			=> 'newpost',
-				'title' 		=> 'Post Count Shout',
-				'description' 	=> 'Have the shoutbox post a shout every time a user hits X number of posts.
+			"newpost" => array(
+				"title" 		=> "Post Count Shout",
+				"description" 	=> "Have the shoutbox post a shout every time a user hits X number of posts.
 				<br />For example: 100 would post a shout every 100, 200, 300... posts a user makes.
-				<br />Leave blank to disable this feature',
-				'optionscode' 	=> 'text',
-				'value' 		=> '100'
+				<br />Leave blank to disable this feature",
+				"optionscode" 	=> "text",
+				"value" 		=> "100"
 			),
-			array(
-				'name' 			=> 'shoutbox_cutoff',
-				'title' 		=> 'Shoutbox Cutoff Time',
-				'description' 	=> 'You can customize how long a user is displayed as "active" in the "Active Users Tab" here. Default is 10 minutes.',
-				'optionscode' 	=> 'text',
-				'value' 		=> '10'
+			"shoutbox_cutoff" => array(
+				"title" 		=> "Shoutbox Cutoff Time",
+				"description" 	=> "You can customize how long a user is displayed as \"active\" in the \"Active Users Tab\" here. Default is 10 minutes.",
+				"optionscode" 	=> "text",
+				"value" 		=> "10"
 			),
-			array(
-				'name' 			=> 'smilies',
-				'title' 		=> 'Allow Smilies',
-				'description' 	=> 'Select "On" if you would like to allow users to use smilies within shout messages.',
-				'optionscode' 	=> 'yesno',
-				'value' 		=> '1'
+			"smilies" => array(
+				"title" 		=> "Allow Smilies",
+				"description" 	=> "Select \"On\" if you would like to allow users to use smilies within shout messages.",
+				"optionscode" 	=> "yesno",
+				"value" 		=> "1"
 			),
-			array(
-				'name' 			=> 'smilies_limit',
-				'title' 		=> 'Smiley Display Limit',
-				'description' 	=> 'Enter the maximum number of smilies to display when a person clicks the "Smilies" button
-				<br />Enter 0 to disable',
-				'optionscode' 	=> 'text',
-				'value' 		=> '0'
+			"smilies_limit" => array(
+				"title" 		=> "Smiley Display Limit",
+				"description" 	=> "Enter the maximum number of smilies to display when a person clicks the \"Smilies\" button
+				<br />Enter 0 to disable",
+				"optionscode" 	=> "text",
+				"value" 		=> "0"
 			),
-			array(
-				'name' 			=> 'shout_markup',
-				'title' 		=> 'Markup Shouts',
-				'description' 	=> 'Select "On" to display user set bold, italic, underline, colors, and fonts in user shouts.',
-				'optionscode' 	=> 'onoff',
-				'value' 		=> '1'
+			"shout_markup" => array(
+				"title" 		=> "Markup Shouts",
+				"description" 	=> "Select \"On\" to display user set bold, italic, underline, colors, and fonts in user shouts.",
+				"optionscode" 	=> "onoff",
+				"value" 		=> "1"
 			),
-			array(
-				'name' 			=> 'allow_mycode',
-				'title' 		=> 'Enable MyCode',
-				'description' 	=> 'Select "On" to parse all MyCode in user shouts.',
-				'optionscode' 	=> 'onoff',
-				'value' 		=> '1'
+			"allow_mycode" => array(
+				"title" 		=> "Enable MyCode",
+				"description" 	=> "Select \"On\" to parse all MyCode in user shouts.",
+				"optionscode" 	=> "onoff",
+				"value" 		=> "1"
 			),
-			array(
-				'name' 			=> 'banned_mycode',
-				'title' 		=> 'Banned MyCode',
-				'description' 	=> 'Enter the mycode tags that users will NOT be allowed to use. Administrators can still use banned MyCode
-				<br > Seperate each mycode with a comma',
-				'optionscode' 	=> 'text',
-				'value' 		=> 'php,code,quote,img,list,size'
+			"banned_mycode" => array(
+				"title" 		=> "Banned MyCode",
+				"description" 	=> "Enter the mycode tags that users will NOT be allowed to use. Administrators can still use banned MyCode
+				<br > Seperate each mycode with a comma",
+				"optionscode" 	=> "text",
+				"value" 		=> "php,code,quote,img,list,size"
 			),
-			array(
-				'name' 			=> 'filter_badwords',
-				'title' 		=> 'Filter Bad Words',
-				'description' 	=> 'Select "On" to automatically censor bad words (based on your forum&#39;s filter) in shouts.',
-				'optionscode' 	=> 'onoff',
-				'value' 		=> '1'
+			"filter_badwords" => array(
+				"title" 		=> "Filter Bad Words",
+				"description" 	=> "Select \"On\" to automatically censor bad words (based on your forum&#39;s filter) in shouts.",
+				"optionscode" 	=> "onoff",
+				"value" 		=> "1"
 			),
-			array(
-				'name' 			=> 'archive',
-				'title' 		=> 'Archive Online',
-				'description' 	=> 'Is the shoutbox archive system online?',
-				'optionscode' 	=> 'onoff',
-				'value' 		=> '1'
+			"archive" => array(
+				"title" 		=> "Archive Online",
+				"description" 	=> "Is the shoutbox archive system online?",
+				"optionscode" 	=> "onoff",
+				"value" 		=> "1"
 			),
-			array(
-				'name' 			=> 'archive_shouts_per_page',
-				'title' 		=> 'Archive: Shouts Per Page',
-				'description' 	=> 'Enter the number of shouts you want to be displayed per page of the archive.',
-				'optionscode' 	=> 'text',
-				'value' 		=> '50'
-			)
-		);
-
-		$sgid = $this->db->insert_id();
-
-		// Insert Settings
-		for ($i = 0; $i < count($settings); $i++)
-		{
-			$settings[$i]['sid'] = '0';
-			$settings[$i]['name'] = 'inferno_' . $settings[$i]['name'];
-			$settings[$i]['disporder'] = ($i + 1);
-			$settings[$i]['isdefault'] = '1';
-			$settings[$i]['gid'] = $sgid;
-
-			// debug
-			if ($this->debug)
-			{
-				$settings[$i]['title'] .= ' | $settings[\\\'' . $settings[$i]['name'] . '\\\']';
-			}
-
-			$this->db->insert_query('settings', $settings[$i]);
-		}
-
-		rebuild_settings();
+			"archive_shouts_per_page" => array(
+				"title" 		=> "Archive: Shouts Per Page",
+				"description" 	=> "Enter the number of shouts you want to be displayed per page of the archive.",
+				"optionscode" 	=> "text",
+				"value" 		=> "50"
+			),
+		)
+	);
 
 		// Insert Shoutbox Tables
 
@@ -1174,39 +1126,20 @@ class inferno_shoutbox
 		");
 
 
-		// god help me
-		$inferno_templates = array(
+		//Using pluginlibrary
+		//Should I just copy/paste contents to reduce risk?
+		$PL->templates("inferno", 
+                   "Inferno Shoutbox",
 			array(
-				'title' => 'inferno_shoutbox',
-				'template' => file_get_contents(MYBB_ROOT . 'inc/plugins/inferno/templates/shoutbox.html')
-			),
-			array(
-				'title' => 'inferno_archive',
-				'template' => file_get_contents(MYBB_ROOT . 'inc/plugins/inferno/templates/archive.html')
-			),
-			array(
-				'title' => 'inferno_archive_table',
-				'template' => file_get_contents(MYBB_ROOT . 'inc/plugins/inferno/templates/archive_table.html')
+				"inferno_shoutbox" => file_get_contents(MYBB_ROOT . "inc/plugins/inferno/templates/shoutbox.html"),
+
+				"inferno_archive" => file_get_contents(MYBB_ROOT . "inc/plugins/inferno/templates/archive.html"),
+
+				"inferno_archive_table" => file_get_contents(MYBB_ROOT . "inc/plugins/inferno/templates/archive_table.html"),
 			)
 		);
-
-		foreach ($inferno_templates as $t)
-		{
-			$t['dateline'] = TIME_NOW;
-			$t['sid'] = '-2';
-			$t['version'] = '1611';
-			$t['template'] = $this->db->escape_string($t['template']);
-			$this->db->insert_query('templates', $t);
-		}
-
-		// Insert new Templates
-		$inferno_tg = array(
-			'gid'	=> '0',
-			'prefix'=> 'inferno',
-			'title' => 'Inferno Shoutbox'
-		);
-
-		$this->db->insert_query('templategroups', $inferno_tg);
+		//Install CSS to all themes with pluginlibrary
+		$PL->stylesheet('inferno', file_get_contents(MYBB_ROOT . "/inc/plugins/inferno/inferno_style.css"));
 
 		$install_shouts = array(
 			'Congratulations! Your copy of Inferno Shoutbox ' . $this->version . ' has been installed successfully!',
