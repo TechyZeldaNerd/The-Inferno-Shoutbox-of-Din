@@ -7,10 +7,12 @@
  * @author Mattbox Solutions
  */
 //Uhh, isn't not having this a security risk? Maybe this is what the post was referencing.
+
 if(!defined("IN_MYBB"))
 {
     die("Direct initialization of this file is not allowed.<br /><br />Please make sure IN_MYBB is defined.");
 }
+
 //Include plugin library
 if(!defined("PLUGINLIBRARY"))
 {
@@ -1131,11 +1133,11 @@ class inferno_shoutbox
 		$PL->templates("inferno", 
                    "Inferno Shoutbox",
 			array(
-				"inferno_shoutbox" => file_get_contents(MYBB_ROOT . "inc/plugins/inferno/templates/shoutbox.html"),
+				"shoutbox" => file_get_contents(MYBB_ROOT . "inc/plugins/inferno/templates/shoutbox.html"),
 
-				"inferno_archive" => file_get_contents(MYBB_ROOT . "inc/plugins/inferno/templates/archive.html"),
+				"archive" => file_get_contents(MYBB_ROOT . "inc/plugins/inferno/templates/archive.html"),
 
-				"inferno_archive_table" => file_get_contents(MYBB_ROOT . "inc/plugins/inferno/templates/archive_table.html"),
+				"archive_table" => file_get_contents(MYBB_ROOT . "inc/plugins/inferno/templates/archive_table.html"),
 			)
 		);
 
