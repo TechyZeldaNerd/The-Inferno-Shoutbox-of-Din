@@ -325,8 +325,8 @@ class inferno_shoutbox
 			// Markup Timestamp
 			$unixtime = $row['timestamp'];
 			// MyBB your shitty my_date function can get fucked by a cactus
-			$row['timestamp'] = my_date($this->settings['dateformat'], $unixtime, $this->mybb->user['timezone']);
-			$row['timestamp'] .= ' ' . my_date($this->settings['timeformat'], $unixtime, $this->mybb->user['timezone']);
+			$row['timestamp'] = my_date($this->settings['dateformat'], $unixtime);
+			$row['timestamp'] .= ' ' . my_date($this->settings['timeformat'], $unixtime);
 
 			$shouts[] = $row;
 		}
