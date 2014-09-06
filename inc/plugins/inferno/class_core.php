@@ -32,7 +32,7 @@ class inferno_shoutbox
 	public $banned = true;
 	public $banned_usergroup = true;
 	public $anus = false;
-	public $version = '1.3';
+	public $version = '1.3.1';
 	public $debug = false;
 
 	/**

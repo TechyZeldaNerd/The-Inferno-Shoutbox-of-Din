@@ -1,7 +1,7 @@
 <?php
 
 // Project Created: 12/16/2013
-//Heavily modified by TechyZeldaNerd: 09/05/14
+//Modified by TechyZeldaNerd: 09/05/14
 if (!defined('IN_MYBB'))
 {
 	exit;
@@ -28,7 +28,7 @@ function inferno_info()
 		'author'		=> 'Mattbox Solutions',
 		'authorsite'	=> 'http://community.mybb.com/user-79350.html',
 		'version'		=> $inferno->version,
-		'guid' 			=> '606e3d645badf30fd787b8f668bcd5b8',
+		'guid' 			=> ' ',
 		'compatibility' => '18*'
 	);
 }
