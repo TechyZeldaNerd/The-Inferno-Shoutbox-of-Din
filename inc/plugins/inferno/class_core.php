@@ -297,7 +297,7 @@ class inferno_shoutbox
 
 			$avi_pixels = intval($this->settings['inferno_avatars']);
 			$row['avatar'] = '<img title="' . $shout_user['username'] . '\'s Avatar" src="' . $this->settings['bburl'] . '/' . $shout_user['avatar'] . '" height="' . $avi_pixels .'" width="' . $avi_pixels .'" />';
-			$row['username'] = format_name($shout_user['username'], $shout_user['usergroup']);
+			$row['username'] = format_name($shout_user['username'], $shout_user['usergroup'], $shout_user['displaygroup']); 
 
 			// markup so username is clickable
 			if (!$pmonly && $this->settings['inferno_shoutbox_pm'] && $archive === false)
@@ -414,7 +414,7 @@ class inferno_shoutbox
 		while ($row = $this->db->fetch_array($result))
 		{
 			$shout_user = get_user($row['uid']);
-			$row['username'] = format_name($shout_user['username'], $shout_user['usergroup']);
+			$row['username'] = format_name($shout_user['username'], $shout_user['usergroup'], $shout_user['displaygroup']); 
 			// thanks ghetto ass build_profile_link function, I'll just do it on my own
 			$row['username'] = $this->gen_profile_link($row['username'], $row['uid']);
 			$users[] = $row['username'];
@@ -1002,7 +1002,7 @@ class inferno_shoutbox
 				<br />When a user is not idle within the shoutbox, AJAX will dynamically refresh the shoutbox to fetch new content, the faster this is, the more real time the shoutbox is. However, this speed comes at the cost of your system resources, and depending on your server/forum activity, it may be a very bad idea to set this to a low number.
 				<br />To get the best results, I recommend testing new settings here, pushing time in small amounts (recommended: 1 second) and see what impact that makes on your server load.",
 				"optionscode" 	=> "text",
-				"value" 		=> "1"
+				"value" 		=> "5"
 			),
 			"idle_timeout" => array(
 				"title" 		=> "Shoutbox Idle Timeout",
@@ -1027,7 +1027,7 @@ class inferno_shoutbox
 				"title" 		=> "New Post Shout",
 				"description" 	=> "Select \"Yes\" to automatically have a shout posted when a user posts in a thread.",
 				"optionscode" 	=> "yesno",
-				"value" 		=> "1"
+				"value" 		=> "0"
 			),
 			"thread_forums" => array(
 				"title" 		=> "New Thread Shout Exempt Forums",

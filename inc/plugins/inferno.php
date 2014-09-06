@@ -29,7 +29,7 @@ function inferno_info()
 		'authorsite'	=> 'http://community.mybb.com/user-79350.html',
 		'version'		=> $inferno->version,
 		'guid' 			=> '606e3d645badf30fd787b8f668bcd5b8',
-		'compatibility' => '*'
+		'compatibility' => '18*'
 	);
 }
 
