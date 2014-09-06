@@ -310,6 +310,7 @@ class inferno_shoutbox
 			{
 				$row['shout'] = $this->strip_mycode($row['shout']);
 			}
+			$row['shout'] = stripslashes($row['shout']);			
 			$row['shout'] = $parser->parse_message($row['shout'], $parse_options);
 
 			if ($this->settings['inferno_shout_markup'])
