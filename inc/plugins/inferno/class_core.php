@@ -1027,7 +1027,7 @@ class inferno_shoutbox
 				"title" 		=> "New Post Shout",
 				"description" 	=> "Select \"Yes\" to automatically have a shout posted when a user posts in a thread.",
 				"optionscode" 	=> "yesno",
-				"value" 		=> "0"
+				"value" 		=> "1"
 			),
 			"thread_forums" => array(
 				"title" 		=> "New Thread Shout Exempt Forums",
