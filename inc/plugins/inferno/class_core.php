@@ -1215,5 +1215,3 @@ class inferno_shoutbox
 		rebuild_settings();
 	}
 }
-
-?>

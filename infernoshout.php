@@ -610,5 +610,3 @@ if ($action == 'archive')
 
 	output_page($archive);
 }
-
-?>
