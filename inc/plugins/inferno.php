@@ -166,6 +166,3 @@ function dvd($str)
 {
 	die(var_dump($str));
 }
-
-?>
-
