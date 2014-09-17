@@ -28,7 +28,6 @@ function inferno_info()
 		'author'		=> 'Mattbox Solutions',
 		'authorsite'	=> 'http://community.mybb.com/user-79350.html',
 		'version'		=> $inferno->version,
-		'guid' 			=> ' ',
 		'compatibility' => '18*'
 	);
 }
