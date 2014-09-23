@@ -276,10 +276,9 @@ class inferno_shoutbox
 			LEFT JOIN " . TABLE_PREFIX . "inferno_user u
 			ON s.uid = u.uid
 			{$where}
-			ORDER BY s.sid {$order}
+			ORDER BY s.sid DESC
 			LIMIT {$limit};
 		");
-
 		$usercache = array();
 
 		while ($row = $this->db->fetch_array($result))
@@ -331,7 +330,10 @@ class inferno_shoutbox
 
 			$shouts[] = $row;
 		}
-
+		if ($order = 'ASC') {
+			$shouts_reversed = array_reverse($shouts);
+			$shouts = $shouts_reversed;
+		}
 		return $shouts;
 	}
 
