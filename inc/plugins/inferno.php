@@ -17,6 +17,7 @@ $plugins->add_hook('admin_user_users_delete_commit', 'inferno_delete_user');
 $plugins->add_hook('inferno_archive_start', 'inferno_archive');
 $plugins->add_hook('newthread_do_newthread_end', 'inferno_newthread');
 $plugins->add_hook('newreply_do_newreply_end', 'inferno_newpost');
+$plugins->add_hook("build_friendly_wol_location_end", "inferno_shoutbox_wol");
 
 function inferno_info()
 {
@@ -154,6 +155,15 @@ function inferno_newpost()
 	}
 }
 
+function inferno_shoutbox_wol(&$plugin_array) {
+    if(preg_match('/infernoshout\.php/', $plugin_array['user_activity']['location']))
+    {
+        global $lang, $mybb;
+        $lang->load("inferno");
+        
+        $plugin_array['location_name'] = $lang->isb_wol;
+}
+}
 function inferno_delete_user()
 {
 	global $user;
