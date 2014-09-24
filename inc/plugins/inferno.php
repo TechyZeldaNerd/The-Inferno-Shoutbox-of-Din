@@ -156,7 +156,7 @@ function inferno_newpost()
 }
 
 function inferno_shoutbox_wol(&$plugin_array) {
-    if(preg_match('/infernoshout\.php/', $plugin_array['user_activity']['location']))
+    if(strstr($plugin_array['user_activity']['location'], 'infernoshout.php'))
     {
         global $lang, $mybb;
         $lang->load("inferno");
