@@ -229,8 +229,8 @@ class inferno_shoutbox
 		$shouts = array();
 		$limit = ($archive !== false) ? (int) $archive : (int) $this->settings['inferno_shouts_display'];
 		$limit = (!$end_limit) ? $limit : $limit . ', ' . (int) $end_limit;
-		$order = ($this->settings['inferno_shout_order']) ? 'DESC' : 'ASC';
-
+//		$order = ($this->settings['inferno_shout_order']) ? 'DESC' : 'ASC';
+		$order = ($this->settings['inferno_shout_order']);
 		if (!$pmonly)
 		{
 			$where = "
@@ -330,7 +330,7 @@ class inferno_shoutbox
 
 			$shouts[] = $row;
 		}
-		if ($order = 'ASC') {
+		if (!$order) {
 			$shouts_reversed = array_reverse($shouts);
 			$shouts = $shouts_reversed;
 		}
