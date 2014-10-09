@@ -2,6 +2,7 @@
 
 // Project Created: 12/16/2013
 //Modified by TechyZeldaNerd: 09/05/14
+//GPL3 License
 if (!defined('IN_MYBB'))
 {
 	exit;
