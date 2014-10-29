@@ -543,67 +543,72 @@ class inferno_shoutbox
 	public function gen_archive_nav()
 	{
 		global $total_pages, $page;
+		if (is_int($page)) {
 
-		$html = '<tr><td class="tcat" align="center">';
+			$html = '<tr><td class="tcat" align="center">';
 
-		$jump = 3;
-		$jumpback = ($page - $jump > 0) ? $page - $jump : false;
-		$back = ($page - 1 > 0) ? $page - 1 : false;
-		$forward = ($page + 1 <= $total_pages) ? $page + 1 : false;
-		$jumpforward = ($page + $jump <= $total_pages) ? $page + $jump : false;
+			$jump = 3;
+			$jumpback = ($page - $jump > 0) ? $page - $jump : false;
+			$back = ($page - 1 > 0) ? $page - 1 : false;
+			$forward = ($page + 1 <= $total_pages) ? $page + 1 : false;
+			$jumpforward = ($page + $jump <= $total_pages) ? $page + $jump : false;
 
-		$html .= '<b>' . $this->lang->isb_archive_page . ' <input type="text" id="a_page" style="width:30px; text-align:center;" value="' . $page . '" />/' . $total_pages . '</b>
-			<input onclick="load_from_text();" type="button" class="button" value="' . $this->lang->isb_archive_btn_go . '" />
-			<br />
-		';
+			$html .= '<b>' . $this->lang->isb_archive_page . ' <input type="text" id="a_page" style="width:30px; text-align:center;" value="' . $page . '" />/' . $total_pages . '</b>
+				<input onclick="load_from_text();" type="button" class="button" value="' . $this->lang->isb_archive_btn_go . '" />
+				<br />
+			';
 
-		if ($jumpback)
-		{
-			$html .= '<input onclick="load(' . $jumpback . ');" type="button" class="button" value="<<" />';
+			if ($jumpback)
+			{
+				$html .= '<input onclick="load(' . $jumpback . ');" type="button" class="button" value="<<" />';
+			}
+			if ($back)
+			{
+				$html .= '<input onclick="load(' . $back . ');" type="button" class="button" value="<" />';
+			}
+			if ($forward)
+			{
+				$html .= '<input onclick="load(' . $forward . ');" type="button" class="button" value=">" />';
+			}
+			if ($jumpforward)
+			{
+				$html .= '<input onclick="load(' . $jumpforward . ');" type="button" class="button" value=">>" />';
+			}
+
+			$html .= '</td></tr>';
+
+			return $html;
 		}
-		if ($back)
-		{
-			$html .= '<input onclick="load(' . $back . ');" type="button" class="button" value="<" />';
-		}
-		if ($forward)
-		{
-			$html .= '<input onclick="load(' . $forward . ');" type="button" class="button" value=">" />';
-		}
-		if ($jumpforward)
-		{
-			$html .= '<input onclick="load(' . $jumpforward . ');" type="button" class="button" value=">>" />';
-		}
-
-		$html .= '</td></tr>';
-
-		return $html;
 	}
 
 	public function gen_archive()
 	{
 		global $total_pages, $page, $offset, $shouts_per_page;
-		$shouts = $this->get_shouts(false, $offset, $shouts_per_page);
-		$html = '';
+		if (is_int($page)) {
 
-		$i = 0;
-		foreach ($shouts as $s)
-		{
-			if (!$s['me'])
+			$shouts = $this->get_shouts(false, $offset, $shouts_per_page);
+			$html = '';
+
+			$i = 0;
+			foreach ($shouts as $s)
 			{
-				$shoutdata = '[' . $s['timestamp'] . '] ' . (($s['private']) ? '<b>[PM]</b> ' : '') . $s['username'] . ' : ' . $s['shout'];
-			}
-			else
-			{
-				$shoutdata = '*' . $s['username'] . ' ' . $s['shout'] . '*';
-			}
+				if (!$s['me'])
+				{
+					$shoutdata = '[' . $s['timestamp'] . '] ' . (($s['private']) ? '<b>[PM]</b> ' : '') . $s['username'] . ' : ' . $s['shout'];
+				}
+				else
+				{
+					$shoutdata = '*' . $s['username'] . ' ' . $s['shout'] . '*';
+				}
 
-			$shoutdata = $s['avatar'] . ' ' . $shoutdata;
+				$shoutdata = $s['avatar'] . ' ' . $shoutdata;
 
-			$css = ($i % 2) ? 'trow1' : 'trow2';
-			$html .= '<tr><td class="' . $css . '">';
-			$html .= $shoutdata;
-			$html .= '</td></tr>';
-			$i++;
+				$css = ($i % 2) ? 'trow1' : 'trow2';
+				$html .= '<tr><td class="' . $css . '">';
+				$html .= $shoutdata;
+				$html .= '</td></tr>';
+				$i++;
+			}
 		}
 
 		return $html;
