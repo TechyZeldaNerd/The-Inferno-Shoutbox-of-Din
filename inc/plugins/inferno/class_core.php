@@ -295,7 +295,11 @@ class inferno_shoutbox
 			}
 
 			$avi_pixels = intval($this->settings['inferno_avatars']);
-			$row['avatar'] = '<img title="' . $shout_user['username'] . '\'s Avatar" src="' . $this->settings['bburl'] . '/' . $shout_user['avatar'] . '" height="' . $avi_pixels .'" width="' . $avi_pixels .'" />';
+			if (strpos($shout_user['avatar'],'http') !== false) {
+						$row['avatar'] = '<img title="' . $shout_user['username'] . '\'s Avatar" src="' . $shout_user['avatar'] . '" height="' . $avi_pixels .'" width="' . $avi_pixels .'" />';
+			}else{
+						$row['avatar'] = '<img title="' . $shout_user['username'] . '\'s Avatar" src="' . $this->settings['bburl'] . '/' . $shout_user['avatar'] . '" height="' . $avi_pixels .'" width="' . $avi_pixels .'" />';
+			}
 			$row['username'] = format_name($shout_user['username'], $shout_user['usergroup'], $shout_user['displaygroup']); 
 
 			// markup so username is clickable
