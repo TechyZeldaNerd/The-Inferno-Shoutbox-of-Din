@@ -485,6 +485,11 @@ class inferno_shoutbox
 				'inferno_css_height',
 				$this->settings['inferno_css_height']
 			),
+            array(
+				'inferno_popup_height',
+				$this->settings['inferno_popup_height']
+			),
+
 			array(
 				'inferno_button_bold',
 				'<input type="button" class="button" onclick="javascript: inferno.update_style(\'bold\', this); return false;" style="font-weight: bold;" value="B' . (($this->userinfo['bold']) ? '*' : '') . '"/>'
@@ -932,7 +937,13 @@ class inferno_shoutbox
 				"value" 		=> "Arial\r\nArial Black\r\nArial Narrow\r\nBook Antiqua\r\nCentury Gothic\r\nComic Sans MS\r\nCourier New\r\nFixedsys\r\nFranklin Gothic Medium\r\nGaramond\r\nGeorgia\r\nImpact\r\nLucida Console\r\nMicrosoft Sans Serif\r\nPalatino Linotype\r\nSystem\r\nTahoma\r\nTimes New Roman\r\nTrebuchet MS\r\nVerdana"
 			),
 			"css_height" => array(
-				"title" 		=> "Default Shoutbox Window Height",
+				"title" 		=> "Default Shoutbox Scrollbox Height",
+				"description" 	=> "Specify a number in pixels for the default height of the window where shouts will be displayed. You do not need to enter \"px\".",
+				"optionscode" 	=> "text",
+				"value" 		=> "210"
+			),
+			"popup_height" => array(
+				"title" 		=> "Popup Shoutbox Scrollbox Height",
 				"description" 	=> "Specify a number in pixels for the default height of the window where shouts will be displayed. You do not need to enter \"px\".",
 				"optionscode" 	=> "text",
 				"value" 		=> "210"
@@ -1152,6 +1163,8 @@ class inferno_shoutbox
                    "Inferno Shoutbox",
 			array(
 				"shoutbox" => file_get_contents(MYBB_ROOT . "inc/plugins/inferno/templates/shoutbox.html"),
+                
+                "popup" => file_get_contents(MYBB_ROOT . "inc/plugins/inferno/templates/popup.html"),
 
 				"archive" => file_get_contents(MYBB_ROOT . "inc/plugins/inferno/templates/archive.html"),
 

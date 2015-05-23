@@ -1,7 +1,7 @@
 <?php
 
 // Project Created: 12/16/2013
-//Modified by TechyZeldaNerd: 09/05/14
+//Modified by TechyZeldaNerd: 09/05/14 (https://github.com/TechyZeldaNerd/The-Inferno-Shoutbox-of-Din)
 //GPL3 License
 if (!defined('IN_MYBB'))
 {
@@ -89,6 +89,27 @@ function inferno_global()
 		}
 	}
 }
+
+function inferno_popup()
+{
+	global $mybb, $templates, $settings, $inferno_shoutbox, $lang;
+	$lang->load('inferno');
+
+	if (IN_MYBB != 'infernoshout')
+	{
+		if ($settings['inferno_enabled'])
+		{
+			$inferno = inferno_init();
+
+			if (!$inferno->banned_usergroup)
+			{
+				eval("\$inferno_shoutbox = \"".$templates->get("inferno_popup")."\";");
+				$inferno_shoutbox = $inferno->replace_template_vars($inferno_shoutbox);
+			}
+		}
+	}
+}
+
 
 function inferno_archive()
 {

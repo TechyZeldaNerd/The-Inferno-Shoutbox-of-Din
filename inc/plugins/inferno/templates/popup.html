@@ -1,17 +1,15 @@
 <script id="inferno_js" type="text/javascript" src="{$mybb->settings['bburl']}/inc/plugins/inferno/inferno.js.php"></script>
+<script type="text/javascript" src="{$mybb->settings['bburl']}/jscripts/jquery.js" ></script>
+
 
 <!-- Inferno Shoutbox Lite: Version {inferno_version} Created by: Mattbox Solutions -->
 <table class="tborder inferno_table" cellspacing="1" cellpadding="4" border="0">
 	<thead>
 		<tr>
 		<td class="thead" colspan="5">
-			<div class="expcolimage">
-				<img id="inferno_img" class="expander" title="[-]" alt="[-]" src="images/collapse.png" style="cursor: pointer;">
-			</div>
 			<div style="text-align:center;">
 				<strong>
-					<a href="javascript:void(0)"  onclick="javascript:void window.open('{$mybb->settings['bburl']}/shoutbox.php','1432402516714','width=900,height=350,toolbar=0,menubar=0,location=0,status=1,scrollbars=0,resizable=1,left=0,top=0');return false;">{inferno_shoutbox_title}</a>
-	    			<a>[<a/><a  style="font-size: 75%;"  href="{$mybb->settings['bburl']}/infernoshout.php?action=archive" title="{inferno_shoutbox_title} Archive">Archive</a><a>]<a/>
+					<a href="{$mybb->settings['bburl']}/infernoshout.php?action=archive" title="{inferno_shoutbox_title} Archive">{inferno_shoutbox_title}</a>
 				</strong>
 			</div>
 			</td>
@@ -73,7 +71,7 @@
 					<div id="inferno_alert" class="inferno_alert_inactive"></div>
 
 					<!-- Shoutbox Content -->
-					<div class="inferno_content" id="inferno_content" style="height:{inferno_css_height}px;">Loading...</div>
+					<div class="inferno_content" id="inferno_content" style="height:{inferno_popup_height}px;">Loading...</div>
 					<!-- End Shoutbox Content -->
 
 				</div>
