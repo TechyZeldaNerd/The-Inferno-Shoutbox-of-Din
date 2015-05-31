@@ -2,7 +2,7 @@
 
 // Project Created: 12/16/2013
 //Modified by TechyZeldaNerd: 09/05/14 (https://github.com/TechyZeldaNerd/The-Inferno-Shoutbox-of-Din)
-//GPL3 License
+//GPL3 or later License
 if (!defined('IN_MYBB'))
 {
 	exit;
