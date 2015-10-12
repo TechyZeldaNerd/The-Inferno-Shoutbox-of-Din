@@ -562,7 +562,7 @@ class inferno_shoutbox
 			$forward = ($page + 1 <= $total_pages) ? $page + 1 : false;
 			$jumpforward = ($page + $jump <= $total_pages) ? $page + $jump : false;
 
-			$html .= '<b>' . $this->lang->isb_archive_page . ' <input type="text" id="a_page" style="width:30px; text-align:center;" value="' . $page . '" />/' . $total_pages . '</b>
+			$html .= '<strong>' . $this->lang->isb_archive_page . ' <input type="text" id="a_page" size="1" style="text-align:center;" value="' . $page . '" />/' . $total_pages . '</strong>
 				<input onclick="load_from_text();" type="button" class="button" value="' . $this->lang->isb_archive_btn_go . '" />
 				<br />
 			';

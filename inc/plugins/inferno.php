@@ -72,7 +72,7 @@ function inferno_uninstall()
 
 function inferno_global()
 {
-	global $mybb, $templates, $settings, $inferno_shoutbox, $lang;
+	global $mybb, $templates, $settings, $inferno_shoutbox, $theme, $lang;
 	$lang->load('inferno');
 
 	if (IN_MYBB != 'infernoshout')
@@ -113,7 +113,7 @@ function inferno_popup()
 
 function inferno_archive()
 {
-	global $mybb, $templates, $settings, $inferno_archive_table, $lang;
+	global $mybb, $templates, $settings, $inferno_archive_table, $theme, $lang;
 	$lang->load('inferno');
 
 	if ($settings['inferno_enabled'] && $settings['inferno_archive'])

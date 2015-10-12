@@ -12,10 +12,12 @@ function load_from_text()
 }
 
 </script>
-<table class="tborder" style="width:90%" cellspacing="1" cellpadding="4" border="0">
+<table border="0" cellspacing="{$theme['borderwidth']}" cellpadding="{$theme['tablespace']}"  class="tborder">
 	<thead>
 		<tr>
-			<td class="thead" align="center" colspan="5"><b>{inferno_shoutbox_title} {$lang->isb_archive}</b></td>
+			<td class="thead" align="center">
+				<strong>{inferno_shoutbox_title} {$lang->isb_archive}</strong>
+			</td>
 		</tr>
 	</thead>
 	<tbody style="">
