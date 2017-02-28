@@ -24,12 +24,12 @@ function inferno_info()
 {
 	$inferno = inferno_init();
 	return array(
-		'name'			=> 'Inferno Shoutbox',
+		'name'		=> 'Inferno Shoutbox',
 		'description'	=> 'Inferno Shoutbox is a powerful shoutbox for your MyBB forum. (Inspired by Inferno vBShout for vBulletin)',
-		'website'		=> 'http://community.mybb.com/thread-149231.html',
-		'author'		=> 'Mattbox Solutions',
+		'website'	=> 'http://community.mybb.com/thread-149231.html',
+		'author'	=> 'Mattbox Solutions',
 		'authorsite'	=> 'http://community.mybb.com/user-79350.html',
-		'version'		=> $inferno->version,
+		'version'	=> $inferno->version,
 		'compatibility' => '18*'
 	);
 }
