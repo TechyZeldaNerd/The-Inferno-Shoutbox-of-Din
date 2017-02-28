@@ -1,17 +1,15 @@
 <script id="inferno_js" type="text/javascript" src="{$mybb->settings['bburl']}/inc/plugins/inferno/inferno.js.php"></script>
-
 <!-- Inferno Shoutbox Lite: Version {inferno_version} Created by: Mattbox Solutions -->
 <table border="0" cellspacing="{$theme['borderwidth']}" cellpadding="{$theme['tablespace']}" class="tborder inferno_table">
 	<thead>
 		<tr>
 		<td class="thead" colspan="5">
 			<div class="expcolimage">
-				<img id="inferno_img" class="expander" title="[-]" alt="[-]" src="images/collapse.png" style="cursor: pointer;">
+				<img id="inferno_img" class="expander" title="[-]" alt="[-]" src="{$theme['imgdir']}/collapse.png" style="cursor: pointer;">
 			</div>
-			<div style="text-align:center;">
+			<div>
 				<strong>
 					<a href="javascript:void(0)"  onclick="javascript:void window.open('{$mybb->settings['bburl']}/shoutbox.php','1432402516714','width=900,height=350,toolbar=0,menubar=0,location=0,status=1,scrollbars=0,resizable=1,left=0,top=0');return false;">{inferno_shoutbox_title}</a>
-	    			<a>[<a/><a  style="font-size: 75%;"  href="{$mybb->settings['bburl']}/infernoshout.php?action=archive" title="{inferno_shoutbox_title} Archive">Archive</a><a>]<a/>
 				</strong>
 			</div>
 			</td>
@@ -21,9 +19,7 @@
 		<tr>
 			<td class="trow1">
 				<div class="inferno_shoutbox">
-
 					<div id="inferno_smilies" align="center"></div>
-
 					<div id="inferno_edit_shout" style="display: none;">
 						<form name="updateshout" autocomplete="off" id="newquery">
 							<table class="inputTable">
@@ -40,7 +36,6 @@
 							</table>
 						</form>
 					</div>
-
 					<!-- Text Entry Table -->
 					<div class="newquery">
 						<form name="newshout" autocomplete="off" id="newquery">
@@ -64,20 +59,20 @@
 						</form>
 					</div>
 					<!-- End Text Entry -->
-
 					<div id="inferno_links" class="inferno_links">
-						<div><a href="#" onclick="javascript: inferno.init(); return false;">{$lang->isb_shoutboxtab}</a></div>
-						<div><a href="#" onclick="javascript: inferno.load_active_users(); return false;">{$lang->isb_activetab}</a>: <span id="inferno_active_users">{inferno_active_users}</span></div>
+						<div><a href="javascript:void(0)" onclick="javascript: inferno.init(); return false;">{$lang->isb_shoutboxtab}</a></div>
+						<div><a href="javascript:void(0)" onclick="javascript: inferno.load_active_users(); return false;">{$lang->isb_activetab}</a>: <span id="inferno_active_users">{inferno_active_users}</span></div>
 					</div>
-
 					<div id="inferno_alert" class="inferno_alert_inactive"></div>
-
 					<!-- Shoutbox Content -->
 					<div class="inferno_content" id="inferno_content" style="height:{inferno_css_height}px;">Loading...</div>
 					<!-- End Shoutbox Content -->
-
 				</div>
 			</td>
 		</tr>
+		<tr>
+			<td class="trow1" colspan="5" style="text-align:right;"><a  class="smalltext"  href="{$mybb->settings['bburl']}/infernoshout.php?action=archive" title="{inferno_shoutbox_title} Archive">Archive</a></td>
+		</tr>
+	</tbody>
 </table>
 <br />

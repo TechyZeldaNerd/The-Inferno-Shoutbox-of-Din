@@ -92,7 +92,7 @@ function inferno_global()
 
 function inferno_popup()
 {
-	global $mybb, $templates, $settings, $inferno_shoutbox, $lang;
+	global $mybb, $templates, $settings, $inferno_shoutbox, $theme, $lang;
 	$lang->load('inferno');
 
 	if (IN_MYBB != 'infernoshout')

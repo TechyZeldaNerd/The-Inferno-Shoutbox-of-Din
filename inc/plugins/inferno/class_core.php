@@ -296,16 +296,16 @@ class inferno_shoutbox
 
 			$avi_pixels = intval($this->settings['inferno_avatars']);
 			if (strpos($shout_user['avatar'],'http') !== false) {
-						$row['avatar'] = '<img title="' . $shout_user['username'] . '\'s Avatar" src="' . $shout_user['avatar'] . '" height="' . $avi_pixels .'" width="' . $avi_pixels .'" />';
+						$row['avatar'] = '<img title="' . $shout_user['username'] . '\'s Avatar" src="' . $shout_user['avatar'] . '" height="' . $avi_pixels .'" width="' . $avi_pixels .'" style="vertical-align: middle;" />';
 			}else{
-						$row['avatar'] = '<img title="' . $shout_user['username'] . '\'s Avatar" src="' . $this->settings['bburl'] . '/' . $shout_user['avatar'] . '" height="' . $avi_pixels .'" width="' . $avi_pixels .'" />';
+						$row['avatar'] = '<img title="' . $shout_user['username'] . '\'s Avatar" src="' . $this->settings['bburl'] . '/' . $shout_user['avatar'] . '" height="' . $avi_pixels .'" width="' . $avi_pixels .'" style="vertical-align: middle;" />';
 			}
 			$row['username'] = format_name($shout_user['username'], $shout_user['usergroup'], $shout_user['displaygroup']); 
 
 			// markup so username is clickable
 			if (!$pmonly && $this->settings['inferno_shoutbox_pm'] && $archive === false)
 			{
-				$row['username'] = '<a href="#" onclick="javascript: inferno.add_private_chat(' . $row['uid'] . ', \'' . $shout_user['username'] . '\'); return false;">' . $row['username'] . '</a>';
+				$row['username'] = '<a href="javascript:void(0)" onclick="javascript: inferno.add_private_chat(' . $row['uid'] . ', \'' . $shout_user['username'] . '\'); return false;">' . $row['username'] . '</a>';
 			}
 
 			// Remove unwanted mycode if not admin
@@ -886,7 +886,7 @@ class inferno_shoutbox
 				"title" 		=> "Minimum Posts to View Shoutbox",
 				"description" 	=> "Enter the number of posts a user must have before they can participate in the shoutbox.
 				<br />Leave blank to disable",
-				"optionscode" 	=> "text",
+				"optionscode" 	=> "numeric",
 				"value" 		=> ""
 			),
 			"alert_admincommands" => array(
@@ -899,7 +899,7 @@ class inferno_shoutbox
 				"title" 		=> "Shouts To Display",
 				"description" 	=> "Select the number of shouts you wish to display within the shoutbox.
 				<br />Note: the higher this number, the more intensive the shoutbox may be on your server.",
-				"optionscode" 	=> "text",
+				"optionscode" 	=> "numeric",
 				"value" 		=> "20"
 			),
 			"shout_order" => array(
@@ -913,14 +913,14 @@ class inferno_shoutbox
 				"description" 	=> "Enter a number in pixels to enable. This number will set the width and height of the avatar in each shout.
 				<br>For example, setting this field to \"50\" will display each avatar and make the width=\"50\" and height=\"50\".
 				<br>To disable this feature, keep this field empty",
-				"optionscode" 	=> "text",
-				"value" 		=> ""
+				"optionscode" 	=> "numeric",
+				"value" 		=> "20"
 			),
 			"shoutbox_flood" => array(
 				"title" 		=> "Flood Control",
 				"description" 	=> "Set how many seconds a user must wait before posting another shout after a previous.
 				<br />For example, if this was set to 3, and a user made a shout, they would only be able to shout again 3 seconds later.",
-				"optionscode" 	=> "text",
+				"optionscode" 	=> "numeric",
 				"value" 		=> "3"
 			),
 			"shoutbox_color" => array(
@@ -939,13 +939,13 @@ class inferno_shoutbox
 			"css_height" => array(
 				"title" 		=> "Default Shoutbox Scrollbox Height",
 				"description" 	=> "Specify a number in pixels for the default height of the window where shouts will be displayed. You do not need to enter \"px\".",
-				"optionscode" 	=> "text",
+				"optionscode" 	=> "numeric",
 				"value" 		=> "210"
 			),
 			"popup_height" => array(
 				"title" 		=> "Popup Shoutbox Scrollbox Height",
 				"description" 	=> "Specify a number in pixels for the default height of the window where shouts will be displayed. You do not need to enter \"px\".",
-				"optionscode" 	=> "text",
+				"optionscode" 	=> "numeric",
 				"value" 		=> "210"
 			),
 			"button_bold" => array(
@@ -995,28 +995,28 @@ class inferno_shoutbox
 				"title" 		=> "Administrator Usergroups",
 				"description" 	=> "Note any usergroups here that will have administrator commands.
 				<br />Seperate each group with a comma",
-				"optionscode" 	=> "text",
+				"optionscode" 	=> "groupselect",
 				"value" 		=> "4"
 			),
 			"usergroups_mod" => array(
 				"title" 		=> "Moderator Usergroups",
 				"description" 	=> "Note any usergroups here that will have moderator commands.
 				<br />Seperate each group with a comma",
-				"optionscode" 	=> "text",
+				"optionscode" 	=> "groupselect",
 				"value" 		=> "3,6"
 			),
 			"usergroups_protected" => array(
 				"title" 		=> "Protected Usergroups",
 				"description" 	=> "Note any usergroups here to be protected, they will not be allowed to be banned, silenced, etc.
 				<br />Seperate each group with a comma",
-				"optionscode" 	=> "text",
+				"optionscode" 	=> "groupselect",
 				"value" 		=> "4"
 			),
 			"usergroups_banned" => array(
 				"title" 		=> "Banned Usergroups",
 				"description" 	=> "Select the usergroups that are banned from the shoutbox. Users in these groups will not be able to see or access the shoutbox.
 				<br />Seperate each group with a comma",
-				"optionscode" 	=> "text",
+				"optionscode" 	=> "groupselect",
 				"value" 		=> "1,5,7"
 			),
 			"js_refresh" => array(
@@ -1024,20 +1024,20 @@ class inferno_shoutbox
 				"description" 	=> "Enter the amount in seconds before the shoutbox updates.
 				<br />When a user is not idle within the shoutbox, AJAX will dynamically refresh the shoutbox to fetch new content, the faster this is, the more real time the shoutbox is. However, this speed comes at the cost of your system resources, and depending on your server/forum activity, it may be a very bad idea to set this to a low number.
 				<br />To get the best results, I recommend testing new settings here, pushing time in small amounts (recommended: 1 second) and see what impact that makes on your server load.",
-				"optionscode" 	=> "text",
+				"optionscode" 	=> "numeric",
 				"value" 		=> "5"
 			),
 			"idle_timeout" => array(
 				"title" 		=> "Shoutbox Idle Timeout",
 				"description" 	=> "Enter the amount (in minutes) before a user will becomde idle client side due to inactivity. Default is 10 minutes
 				<br />Note: When a user is idle, it will no longer refresh the shoutbox until they choose to un-idle.",
-				"optionscode" 	=> "text",
+				"optionscode" 	=> "numeric",
 				"value" 		=> "10"
 			),
 			"shout_max_chars" => array(
 				"title" 		=> "Maximum Shout Length",
 				"description" 	=> "The maximum amount of characters allowed in a single shout.",
-				"optionscode" 	=> "text",
+				"optionscode" 	=> "numeric",
 				"value" 		=> "300"
 			),
 			"thread_post" => array(
@@ -1056,7 +1056,7 @@ class inferno_shoutbox
 				"title" 		=> "New Thread Shout Exempt Forums",
 				"description" 	=> "Enter the ID for each forum that will NOT have a shout automatically posted when a user posts a new thread. Enter secret forums such as staff sections, 18+, etc.
 				<br />Seperate each forum ID with a comma",
-				"optionscode" 	=> "text",
+				"optionscode" 	=> "folumselect",
 				"value" 		=> ""
 			),
 			"newpost" => array(
@@ -1064,13 +1064,13 @@ class inferno_shoutbox
 				"description" 	=> "Have the shoutbox post a shout every time a user hits X number of posts.
 				<br />For example: 100 would post a shout every 100, 200, 300... posts a user makes.
 				<br />Leave blank to disable this feature",
-				"optionscode" 	=> "text",
+				"optionscode" 	=> "numeric",
 				"value" 		=> "100"
 			),
 			"shoutbox_cutoff" => array(
 				"title" 		=> "Shoutbox Cutoff Time",
 				"description" 	=> "You can customize how long a user is displayed as \"active\" in the \"Active Users Tab\" here. Default is 10 minutes.",
-				"optionscode" 	=> "text",
+				"optionscode" 	=> "numeric",
 				"value" 		=> "10"
 			),
 			"smilies" => array(
@@ -1083,7 +1083,7 @@ class inferno_shoutbox
 				"title" 		=> "Smiley Display Limit",
 				"description" 	=> "Enter the maximum number of smilies to display when a person clicks the \"Smilies\" button
 				<br />Enter 0 to disable",
-				"optionscode" 	=> "text",
+				"optionscode" 	=> "numeric",
 				"value" 		=> "0"
 			),
 			"shout_markup" => array(
@@ -1120,7 +1120,7 @@ class inferno_shoutbox
 			"archive_shouts_per_page" => array(
 				"title" 		=> "Archive: Shouts Per Page",
 				"description" 	=> "Enter the number of shouts you want to be displayed per page of the archive.",
-				"optionscode" 	=> "text",
+				"optionscode" 	=> "numeric",
 				"value" 		=> "50"
 			),
 		)
