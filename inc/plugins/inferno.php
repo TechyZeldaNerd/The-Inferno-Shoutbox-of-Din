@@ -126,53 +126,56 @@ function inferno_archive()
 
 function inferno_newthread()
 {
-	global $mybb, $db, $settings, $url, $lang, $tid;
+	global $mybb, $db, $settings, $url, $lang, $tid, $visible, $new_thread;
 
 	if ($settings['inferno_enabled'])
 	{
 		$inferno = inferno_init();
 		$data = $mybb->input;
 		$fid = $data['fid'];
-
-		if ($settings['inferno_thread_post'] && !in_array($fid, explode(',', $settings['inferno_thread_forums'])))
+		if ($visible && !$new_thread['savedraft']) 
 		{
-			$link = '[url=' . $settings['bburl'] . '/' . get_thread_link($tid) . ']' . $db->escape_string($data['subject']) . '[/url]';
-			$shout = $lang->sprintf($lang->isb_newthread, $link);
-			$inferno->create_shout($mybb->user['uid'], $shout, true);
+			if ($settings['inferno_thread_post'] && !in_array($fid, explode(',', $settings['inferno_thread_forums'])))
+			{
+				$link = '[url=' . $settings['bburl'] . '/' . get_thread_link($tid) . ']' . $db->escape_string($data['subject']) . '[/url]';
+				$shout = $lang->sprintf($lang->isb_newthread, $link);
+				$inferno->create_shout($mybb->user['uid'], $shout, true);
+			}
 		}
 	}
 }
 
 function inferno_newpost()
 {
-	global $mybb, $db, $settings, $post, $url, $lang, $thread;
+	global $mybb, $db, $settings, $post, $url, $lang, $thread, $visible;
 	$counter = (int) $settings['inferno_newpost'];
 	$posts = (int) $mybb->user['postnum'] + 1;
 
-
-	if ($settings['inferno_enabled'] && $counter)
-	{
-		$inferno = inferno_init();
-	
-		if ($posts % $counter == 0)
+	if ($visible == 1) {
+		if ($settings['inferno_enabled'] && $counter)
 		{
-			$inferno->create_shout($mybb->user['uid'], $lang->sprintf($lang->isb_newpost, $posts), true);
+			$inferno = inferno_init();
+	
+			if ($posts % $counter == 0)
+			{
+				$inferno->create_shout($mybb->user['uid'], $lang->sprintf($lang->isb_newpost, $posts), true);
+			}
 		}
-	}
 	
 
-	if ($settings['inferno_enabled'])
-	{
-		$inferno = inferno_init();
-		$data = $mybb->input;
-		$fid = $thread['fid'];
-		$inferno_url = htmlspecialchars_decode($url);
-
-		if ($settings['inferno_post_post'] && !in_array($fid, explode(',', $settings['inferno_thread_forums'])))
+		if ($settings['inferno_enabled'])
 		{
-			$link = '[url=' . $settings['bburl'] . '/' . $inferno_url . ']' . $db->escape_string($thread['subject']) . '[/url]';
-			$shout = $lang->sprintf($lang->isb_newpost_shout, $link);
-			$inferno->create_shout($mybb->user['uid'], $shout, true);
+			$inferno = inferno_init();
+			$data = $mybb->input;
+			$fid = $thread['fid'];
+			$inferno_url = htmlspecialchars_decode($url);
+
+			if ($settings['inferno_post_post'] && !in_array($fid, explode(',', $settings['inferno_thread_forums'])))
+			{
+				$link = '[url=' . $settings['bburl'] . '/' . $inferno_url . ']' . $db->escape_string($thread['subject']) . '[/url]';
+				$shout = $lang->sprintf($lang->isb_newpost_shout, $link);
+				$inferno->create_shout($mybb->user['uid'], $shout, true);
+			}
 		}
 	}
 }
