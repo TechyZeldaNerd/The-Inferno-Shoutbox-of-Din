@@ -24,12 +24,12 @@ function inferno_info()
 {
 	$inferno = inferno_init();
 	return array(
-		'name'			=> 'Inferno Shoutbox',
+		'name'		=> 'Inferno Shoutbox',
 		'description'	=> 'Inferno Shoutbox is a powerful shoutbox for your MyBB forum. (Inspired by Inferno vBShout for vBulletin)',
-		'website'		=> 'http://community.mybb.com/thread-149231.html',
-		'author'		=> 'Mattbox Solutions',
+		'website'	=> 'http://community.mybb.com/thread-149231.html',
+		'author'	=> 'Mattbox Solutions',
 		'authorsite'	=> 'http://community.mybb.com/user-79350.html',
-		'version'		=> $inferno->version,
+		'version'	=> $inferno->version,
 		'compatibility' => '18*'
 	);
 }
@@ -72,7 +72,7 @@ function inferno_uninstall()
 
 function inferno_global()
 {
-	global $mybb, $templates, $settings, $inferno_shoutbox, $lang;
+	global $mybb, $templates, $settings, $inferno_shoutbox, $theme, $lang;
 	$lang->load('inferno');
 
 	if (IN_MYBB != 'infernoshout')
@@ -92,7 +92,7 @@ function inferno_global()
 
 function inferno_popup()
 {
-	global $mybb, $templates, $settings, $inferno_shoutbox, $lang;
+	global $mybb, $templates, $settings, $inferno_shoutbox, $theme, $lang;
 	$lang->load('inferno');
 
 	if (IN_MYBB != 'infernoshout')
@@ -113,7 +113,7 @@ function inferno_popup()
 
 function inferno_archive()
 {
-	global $mybb, $templates, $settings, $inferno_archive_table, $lang;
+	global $mybb, $templates, $settings, $inferno_archive_table, $theme, $lang;
 	$lang->load('inferno');
 
 	if ($settings['inferno_enabled'] && $settings['inferno_archive'])

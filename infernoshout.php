@@ -262,7 +262,7 @@ if ($action == 'getsmilies')
 
 	foreach ($smilies as $s)
 	{
-		$html .= '<a href="#" onclick="javascript: inferno.append(\'' . $s['find'] . '\'); return false;"><img title="' . $s['name'] . '" src="' . $s['image'] . '" /></a> ';
+		$html .= '<a href="javascript:void(0)" onclick="javascript: inferno.append(\'' . $s['find'] . '\'); return false;"><img title="' . $s['name'] . '" src="' . $s['image'] . '" /></a> ';
 	}
 
 	echo trim($html);

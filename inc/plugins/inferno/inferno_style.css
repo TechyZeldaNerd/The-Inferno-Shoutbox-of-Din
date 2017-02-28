@@ -21,11 +21,13 @@
 .inferno_content {
 	padding-left: 5px;
 	word-wrap:break-word;
-	margin-right:10px;
-	margin-bottom:20px;
 	margin-top:5px;
     color: #3e3e3e;
 	overflow: auto;
+}
+
+.inferno_content > span {
+	line-height: 1.5em;
 }
 
 .inferno_content a {
